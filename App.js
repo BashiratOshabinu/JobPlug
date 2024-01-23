@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { Intro } from './Framework/Screens/Intro';
 import { Pacifico_400Regular, } from '@expo-google-fonts/pacifico';
-import { Raleway_300Light_Italic, Raleway_600SemiBold, Raleway_500Medium_Italic,Raleway_200ExtraLight,Raleway_100Thin,Raleway_300Light,Raleway_400Regular,Raleway_700Bold,Raleway_800ExtraBold,Raleway_900Black} from '@expo-google-fonts/raleway';
+import { Raleway_300Light_Italic, Raleway_600SemiBold, Raleway_500Medium_Italic,Raleway_200ExtraLight,Raleway_100Thin,Raleway_300Light,Raleway_400Regular,Raleway_700Bold,Raleway_800ExtraBold,Raleway_900Black, Raleway_500Medium} from '@expo-google-fonts/raleway';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import { useEffect, useState, useCallback } from "react";
@@ -31,6 +31,8 @@ export default function App() {
         await Font.loadAsync({ Raleway_700Bold });
         await Font.loadAsync({ Raleway_800ExtraBold });
         await Font.loadAsync({ Raleway_900Black });
+        await Font.loadAsync({ Raleway_500Medium });
+
 
         
 

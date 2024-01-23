@@ -1,6 +1,6 @@
-import { faBell, faBriefcase, faLocationDot, faMagnifyingGlass, faUser, faUserTie, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faBriefcase, faLocationDot, faMagnifyingGlass, faUser, faUserTie, faAngleRight, faInbox } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { View, Text, StatusBar, SafeAreaView, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Dimensions, ScrollView, FlatList,Alert} from 'react-native';
+import { View, Text, StatusBar, SafeAreaView, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Dimensions, ScrollView, FlatList, Alert } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { Intro } from './Intro';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,25 +14,27 @@ import { db } from '../Firebase/settings';
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { Post } from '../Screens/Post';
+import { Notification } from './Notification';
 
 
 const CarouselLinks = [
-  "https://images.pexels.com/photos/5439381/pexels-photo-5439381.jpeg?auto=compress&cs=tinysrgb&w=600",
-  "https://images.pexels.com/photos/543946https://images.pexels.com/photos/18848929/pexels-photo-18848929/free-photo-of-confident-beautiful-asian-woman-in-suit-is-smiling-during-job-interview-in-office-environment.jpeg?auto=compress&cs=tinysrgb&w=6009/pexels-photo-5439469.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://images.pexels.com/photos/5439481/pexels-photo-5439481.jpeg?auto=compress&cs=tinysrgb&w=800"
+  "https://images.pexels.com/photos/5699479/pexels-photo-5699479.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "https://images.pexels.com/photos/5673502/pexels-photo-5673502.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "https://images.pexels.com/photos/4344878/pexels-photo-4344878.jpeg?auto=compress&cs=tinysrgb&w=600"
 ]
 
 
 
-function Home() {
+function Home({navigation}) {
   const width = Dimensions.get("screen").width;
   const { userUID, setUserInfo, userInfo, setPreloader } = useContext(AppContext);
   const [jobs, setJobs] = useState([]);
-
   async function getUserInfo() {
-    const userInfo = await getDoc(doc(db, "users", userUID))
-    setUserInfo(userInfo.data())
-  }
+    onSnapshot(doc(db, "users", userUID), (snapshot) => {
+        // console.log(snapshot.data());
+        setUserInfo(snapshot.data())
+    })
+}
   function editProfile() {
     setPreloader(true)
     updateDoc(doc(db, "users", userUID), {
@@ -72,14 +74,16 @@ function Home() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={styles.container}>
-        <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", gap: 5 }}>
-          <View style={{ alignItems: "center", gap: 5, flexDirection: 'row' }}>
-            <FontAwesomeIcon icon={faUserTie} size={30} color="#2F80ED" />
-            <Text style={{ fontSize: 18 }}>{userInfo.firstName} {userInfo.lastName}</Text>
+        <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", }}>
+          <View style={{ alignItems: "center", }}>
+            <Image source={require("../../assets/G.png")} style={{ width: 50, alignSelf: "center", height: 50, borderWidth: 0, borderRadius: 250, borderColor: 'black', marginTop: 20 }} />
           </View>
-          <TextInput placeholder='Search' style={{ padding: 10, borderRadius: 15, fontSize: 20, backgroundColor: '#CCE0F0', width: 200, marginBottom: 20, alignItems: 'center' }} placeholderTextColor={"black"} />
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={faBell} size={30} color="#2F80ED" />
+
+          <TouchableOpacity onPress={() => navigation.navigate("Jobs")}>
+                            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ marginEnd: 10 }} size={25} color={Theme.colors.primary} />
+                        </TouchableOpacity>     
+                             <TouchableOpacity onPress={() => navigation.navigate("Inbox")}>
+            <FontAwesomeIcon icon={faInbox} size={32} color="#2F80ED" />
           </TouchableOpacity>
         </View>
         <ScrollView>
@@ -112,14 +116,19 @@ function Home() {
               )}
             />
           </View>
-          <View style={{ marginTop: 10 }}>
-            <View style={[styles.topBar, { marginBottom: 10 }]}>
+          <View style={{ marginTop: 10, }}>
+            <View style={[styles.topBar, { marginBottom: 10, }]}>
               <Text style={{ fontSize: 16, fontFamily: Theme.fonts.text600 }}>Recent Jobs</Text>
+              <View style={{flexDirection: "row"}}>
               <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate("Jobs")} style={styles.allJobs}>
                 <Text style={{ fontSize: 14, fontFamily: Theme.fonts.text500, color: Theme.colors.primary }}>View More</Text>
-                <FontAwesomeIcon icon={faAngleRight} color={Theme.colors.primary} size={14} />
-              </TouchableOpacity>
-            </View>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate("Jobs")} style={styles.allJobs}>
+                <FontAwesomeIcon icon={faAngleRight} color={Theme.colors.primary} size={14} style={{marginLeft: 5}} />
+                </TouchableOpacity>
+
+              </View>
+              </View>
 
             <FlatList
               data={jobs}
@@ -128,7 +137,7 @@ function Home() {
                   <View style={{ padding: 5, paddingBottom: 10, marginBottom: 10, borderRadius: 3, borderColor: Theme.colors.primary + 20, borderBottomWidth: 1 }}>
                     <View style={{ flexDirection: "row", gap: 10 }}>
                       <Image style={{ width: 90, height: 90 }}
-                        source={{ uri: "https://media.licdn.com/dms/image/C4E0BAQG8bdX5sQ24KQ/company-logo_100_100/0/1630619679689/crossover__logo?e=1713398400&v=beta&t=sWqKXP-u1sDu1EY8JCTLC-cCW7yTv9vF3l4t2zIoytM" }} />
+                        source={{ uri: "https://images.pexels.com/photos/3714786/pexels-photo-3714786.jpeg?auto=compress&cs=tinysrgb&w=800" }} />
                       <View style={{ padding: 5, flex: 1 }}>
                         <Text style={{ fontSize: 20, fontFamily: Theme.fonts.text600, color: Theme.colors.primary }}>{item.jobTitle}</Text>
                         <Text style={{ fontSize: 16, fontFamily: Theme.fonts.text500 }}>{item.company}</Text>
@@ -196,7 +205,10 @@ export function HomeScreen() {
             size = focused ? 35 : 23
             iconName = focused ? 'plus' : 'plus-box-outline';
           }
-
+         else if (route.name==='Notification'){
+          size = focused ? 35 : 23
+          iconName = focused ? 'bell' : 'bell-outline'
+         }
 
           return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
 
@@ -219,6 +231,9 @@ export function HomeScreen() {
 
       <Tab.Screen name="Profile" component={Profile} />
 
+      <Tab.Screen name="Notification" component={Notification} />
+
+
 
     </Tab.Navigator>
 
@@ -230,7 +245,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Platform.OS == "android" ? StatusBar.currentHeight : 0,
-    padding: 20,
-    justifyContent: "space-between"
+    padding: 5,
+    justifyContent: "space-between",
   },
+  topBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+},
 })

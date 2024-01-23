@@ -1,18 +1,14 @@
 import { View, StatusBar, SafeAreaView, StyleSheet, ImageBackground,ScrollView, TextInput, TouchableOpacity, Image, Alert, Text } from "react-native";
 
-
-
-export function Notification (){
+export function Inbox (){
   return(
     <SafeAreaView style={{flex:1}}>
-      <View style={styles.container}>
-        <Text>Notification</Text>
+      <View style={styles.container}> 
+        <Text>No Message</Text>
       </View>
     </SafeAreaView>
-
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

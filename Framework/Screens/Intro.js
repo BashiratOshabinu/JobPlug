@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS == "android" ? StatusBar.currentHeight: 0,
     padding: 20,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+
   },
   appBTN: {
     borderWidth: 1,

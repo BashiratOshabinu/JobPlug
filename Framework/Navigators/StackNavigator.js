@@ -8,6 +8,11 @@ import { Login }  from '../Screens/Login';
 import { Changepassword } from '../Screens/Changepassword';
 import { EditProfile } from '../Screens/EditProfile';
 import { Post } from '../Screens/Post';
+import { Jobs } from '../Screens/Jobs';
+import { Notification } from '../Screens/Notification';
+import { Inbox } from '../Screens/Inbox';
+import { Pay } from '../Screens/Pay';
+import { Funds } from '../Screens/Funds';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +28,15 @@ export function StackNavigator () {
         <Stack.Screen name="Changepassword" component={ Changepassword } />
         <Stack.Screen name="EditProfile" component={ EditProfile } />
         <Stack.Screen name="Post" component={ Post } />
+        <Stack.Screen name="Jobs" component={ Jobs } />
+        <Stack.Screen name="Notification" component={ Notification } />
+        <Stack.Screen name="Inbox" component={ Inbox } />
+        <Stack.Screen name="Pay" component={ Pay } />
+        <Stack.Screen name="Funds" component={ Funds } />
+
+
+
+
 
 
 

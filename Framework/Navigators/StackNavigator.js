@@ -13,6 +13,7 @@ import { Notification } from '../Screens/Notification';
 import { Inbox } from '../Screens/Inbox';
 import { Pay } from '../Screens/Pay';
 import { Funds } from '../Screens/Funds';
+import { ForgotPassword } from '../Screens/ForgotPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,8 @@ export function StackNavigator () {
         <Stack.Screen name="Inbox" component={ Inbox } />
         <Stack.Screen name="Pay" component={ Pay } />
         <Stack.Screen name="Funds" component={ Funds } />
+        <Stack.Screen name="ForgetPassword" component={ ForgotPassword } />
+
 
 
 

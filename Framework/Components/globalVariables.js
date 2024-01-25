@@ -9,6 +9,8 @@ function AppProvider({children}){
   const [ userInfo, setUserInfo ] = useState('');
   const [name, setName] = useState(undefined);
   const [preloader, setPreloader] =useState(false);
+  
+
   return(
     <AppContext.Provider value={{ email, setEmail, password, setPassword, preloader, setPreloader, name, setName, userUID, setUserUID, userInfo, setUserInfo}}>
       {children}

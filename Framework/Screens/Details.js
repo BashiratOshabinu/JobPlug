@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export function Appliednow() {
-  return (
-    <View style={styles.container}>
-      <Text>Applied Now</Text>
-    </View>
-  )
+export function Details() {
+    return (
+<View style={styles.container}>
+              <Text>See details</Text>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({

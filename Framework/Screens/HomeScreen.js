@@ -25,16 +25,16 @@ const CarouselLinks = [
 
 
 
-function Home({navigation}) {
+function Home({ navigation }) {
   const width = Dimensions.get("screen").width;
   const { userUID, setUserInfo, userInfo, setPreloader } = useContext(AppContext);
   const [jobs, setJobs] = useState([]);
   async function getUserInfo() {
     onSnapshot(doc(db, "users", userUID), (snapshot) => {
-        // console.log(snapshot.data());
-        setUserInfo(snapshot.data())
+      // console.log(snapshot.data());
+      setUserInfo(snapshot.data())
     })
-}
+  }
   function editProfile() {
     setPreloader(true)
     updateDoc(doc(db, "users", userUID), {
@@ -63,7 +63,7 @@ function Home({navigation}) {
     onSnapshot(collection(db, "jobs"), (snapshot) => {
       const allData = []
       snapshot.forEach(item => {
-        allData.push({ ...item.data(), docId: item.id });
+        allData.push({ ...item.data(), docID: item.id });
 
       });
       setJobs(allData);
@@ -76,13 +76,14 @@ function Home({navigation}) {
       <View style={styles.container}>
         <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", }}>
           <View style={{ alignItems: "center", }}>
-            <Image source={require("../../assets/G.png")} style={{ width: 50, alignSelf: "center", height: 50, borderWidth: 0, borderRadius: 250, borderColor: 'black', marginTop: 20 }} />
+            <Image source={{ uri: userInfo.image }} defaultSource={require("../../assets/Profilep.png")}
+              style={{ width: 50, alignSelf: "center", height: 50, borderWidth: 0, borderRadius: 250, borderColor: 'black', marginTop: 20 }} />
           </View>
 
           <TouchableOpacity onPress={() => navigation.navigate("Jobs")}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ marginEnd: 10 }} size={25} color={Theme.colors.primary} />
-                        </TouchableOpacity>     
-                             <TouchableOpacity onPress={() => navigation.navigate("Inbox")}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ marginEnd: 10 }} size={25} color={Theme.colors.primary} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Inbox")}>
             <FontAwesomeIcon icon={faInbox} size={32} color="#2F80ED" />
           </TouchableOpacity>
         </View>
@@ -116,19 +117,19 @@ function Home({navigation}) {
               )}
             />
           </View>
-          <View style={{ marginTop: 10, }}>
+          <View style={{ marginTop: 10, flex: 1 }}>
             <View style={[styles.topBar, { marginBottom: 10, }]}>
               <Text style={{ fontSize: 16, fontFamily: Theme.fonts.text600 }}>Recent Jobs</Text>
-              <View style={{flexDirection: "row"}}>
-              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate("Jobs")} style={styles.allJobs}>
-                <Text style={{ fontSize: 14, fontFamily: Theme.fonts.text500, color: Theme.colors.primary }}>View More</Text>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate("Jobs")} style={styles.allJobs}>
+                  <Text style={{ fontSize: 14, fontFamily: Theme.fonts.text500, color: Theme.colors.primary }}>View More</Text>
                 </TouchableOpacity>
                 <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate("Jobs")} style={styles.allJobs}>
-                <FontAwesomeIcon icon={faAngleRight} color={Theme.colors.primary} size={14} style={{marginLeft: 5}} />
+                  <FontAwesomeIcon icon={faAngleRight} color={Theme.colors.primary} size={14} style={{ marginLeft: 5 }} />
                 </TouchableOpacity>
 
               </View>
-              </View>
+            </View>
 
             <FlatList
               data={jobs}
@@ -165,7 +166,7 @@ function Home({navigation}) {
                   </View>
                 )
               }}
-              keyExtractor={({ item }) => item}
+              key={({ item }) => { item.id }}
             />
           </View>
         </ScrollView>
@@ -205,10 +206,10 @@ export function HomeScreen() {
             size = focused ? 35 : 23
             iconName = focused ? 'plus' : 'plus-box-outline';
           }
-         else if (route.name==='Notification'){
-          size = focused ? 35 : 23
-          iconName = focused ? 'bell' : 'bell-outline'
-         }
+          else if (route.name === 'Notification') {
+            size = focused ? 35 : 23
+            iconName = focused ? 'bell' : 'bell-outline'
+          }
 
           return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
 
@@ -252,5 +253,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-},
+  },
 })
